@@ -33,7 +33,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     log("----------------------------------------------------")
 
-    const arguments = [
+    const _arguments = [
         vrfCoordinatorV2Address,
         networkConfig[chainId]["lotteryEntranceFee"],
         networkConfig[chainId]["gasLane"],
@@ -44,7 +44,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const lottery = await deploy("Lottery", {
         from: deployer,
-        args: arguments,
+        args: _arguments,
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
@@ -52,7 +52,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("Verifying...")
-        await verify(lottery.address, arguments)
+        await verify(lottery.address, _arguments)
     }
 
     log("Enter lottery with command:")
